@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/paymentText"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="88dp"
+        android:gravity="center"
+        android:text="Interested in becoming a paid member? Enjoy these benefits for a low cost!"
+        android:textSize="22sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/paymentBenefitsText"
+        android:layout_width="260dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentText" />
+
+    <Button
+        android:id="@+id/paymentYesBtn"
+        android:layout_width="209dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="28dp"
+        android:text="Yes, I'd like to become a member"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentBenefitsText" />
+
+</android.support.constraint.ConstraintLayout>

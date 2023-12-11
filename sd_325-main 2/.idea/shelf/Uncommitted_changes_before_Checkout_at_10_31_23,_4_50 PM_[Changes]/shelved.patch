@@ -1,0 +1,132 @@
+Index: Backend/Backend(features)/src/main/java/login/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package login;\n\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.http.ResponseEntity;\nimport org.springframework.validation.BindingResult;\nimport org.springframework.web.bind.annotation.*;\n\n@RestController\n@RequestMapping(\"/api/users\")\npublic class UserController {\n    @Autowired\n    private UserService userService;\n\n    @Autowired\n    private UserRepository userRepository;\n\n    // Registration endpoint\n    @PostMapping(\"/register\")\n    public ResponseEntity<?> registerUser(@RequestBody User user, BindingResult bindingResult) {\n        // Validation: Check if the provided user data is valid\n        if (bindingResult.hasErrors()) {\n            return ResponseEntity.badRequest().body(\"Validation errors\");\n        }\n\n        // Check if the username or email is already in use\n        if (userRepository.findByUsername(user.getUsername()) != null) {\n            return ResponseEntity.badRequest().body(\"Username is already in use\");\n        }\n        if (userRepository.findByEmail(user.getEmail()) != null) {\n            return ResponseEntity.badRequest().body(\"Email is already in use\");\n        }\n\n        // Perform user registration\n        userService.registerUser(user);\n\n        return ResponseEntity.ok(\"User registered successfully\");\n    }\n\n    // Login endpoint\n    @PostMapping(\"/login\")\n    public ResponseEntity<?> loginUser(@RequestBody User user) {\n        // Implement login logic here, including checking credentials\n        // You can use the userRepository to verify the user's credentials\n\n        User existingUser = (User) userRepository.findByUsername(user.getUsername());\n        if (existingUser == null) {\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        if (!existingUser.getPassword().equals(user.getPassword())) {\n            return ResponseEntity.badRequest().body(\"Incorrect password\");\n        }\n\n        // Successfully logged in\n        return ResponseEntity.ok(\"Login successful\");\n    }\n\n    // Retrieve UI Theme and Profile Picture endpoint\n    @PostMapping(\"/set_profile\")\n            public ResponseEntity<?> setUserProfile\n            (String username, String profilePicture){\n\n        User user = userRepository.findByUsername(username);\n\n        if(user == null){\n\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        user.setProfilePicture(profilePicture);\n\n        return ResponseEntity.ok(user);\n\n\n    }\n\n    @PostMapping(\"/set_ui\")\n            public ResponseEntity<?> setUserUiTheme\n            (String username, String uiThemeColor){\n\n        User user = userRepository.findByUsername(username);\n\n        if(user == null){\n\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        user.setUiThemeColor(uiThemeColor);\n\n        return ResponseEntity.ok(user);\n\n    }\n\n    public ResponseEntity<?> setUserMembershipType(@RequestParam String username, @RequestParam String membershipType) {\n        User user = userRepository.findByUsername(username);\n\n        if (user == null) {\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        user.setMembershipType(membershipType);\n        userRepository.save(user);\n\n        return ResponseEntity.ok(\"Membership type set successfully\");\n    }\n\n    @GetMapping(\"/get_membership_type\")\n    public ResponseEntity<?> getUserMembershipType(@RequestParam String username) {\n        User user = userRepository.findByUsername(username);\n\n        if (user == null) {\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        String membershipType = user.getMembershipType();\n        return ResponseEntity.ok(membershipType);\n    }\n    @GetMapping(\"/get_ui_theme\")\n    public ResponseEntity<?> getUserUITheme(@RequestParam String username) {\n        User user = userRepository.findByUsername(username);\n\n        if (user == null) {\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        String uiThemeColor = user.getUiThemeColor();\n        return ResponseEntity.ok(uiThemeColor);\n    }\n\n    // Get Profile Picture endpoint\n    @GetMapping(\"/get_profile_picture\")\n    public ResponseEntity<?> getUserProfilePicture(@RequestParam String username) {\n        User user = userRepository.findByUsername(username);\n\n        if (user == null) {\n            return ResponseEntity.badRequest().body(\"User not found\");\n        }\n\n        String profilePicture = user.getProfilePicture();\n        return ResponseEntity.ok(profilePicture);\n    }\n\n}\n
+===================================================================
+diff --git a/Backend/Backend(features)/src/main/java/login/UserController.java b/Backend/Backend(features)/src/main/java/login/UserController.java
+--- a/Backend/Backend(features)/src/main/java/login/UserController.java	
++++ b/Backend/Backend(features)/src/main/java/login/UserController.java	
+@@ -5,6 +5,8 @@
+ import org.springframework.validation.BindingResult;
+ import org.springframework.web.bind.annotation.*;
+ 
++import java.util.List;
++
+ @RestController
+ @RequestMapping("/api/users")
+ public class UserController {
+@@ -56,88 +58,49 @@
+     }
+ 
+     // Retrieve UI Theme and Profile Picture endpoint
+-    @PostMapping("/set_profile")
+-            public ResponseEntity<?> setUserProfile
+-            (String username, String profilePicture){
+-
+-        User user = userRepository.findByUsername(username);
+-
+-        if(user == null){
+-
+-            return ResponseEntity.badRequest().body("User not found");
+-        }
+-
+-        user.setProfilePicture(profilePicture);
+-
+-        return ResponseEntity.ok(user);
+-
+-
+-    }
+-
+-    @PostMapping("/set_ui")
+-            public ResponseEntity<?> setUserUiTheme
+-            (String username, String uiThemeColor){
+-
++    @GetMapping("/profile/{username}")
++    public ResponseEntity<UserProfile> getUserProfile(@PathVariable String username) {
++        // Find the user by their username
+         User user = userRepository.findByUsername(username);
+ 
+-        if(user == null){
+-
+-            return ResponseEntity.badRequest().body("User not found");
++        if (user == null) {
++            return ResponseEntity.notFound().build();
+         }
+ 
+-        user.setUiThemeColor(uiThemeColor);
++        // Create a profile object containing UI theme and profile picture
++        UserProfile userProfile = new UserProfile();
++        userProfile.setUiThemeColor(user.getUiThemeColor());
++        userProfile.setProfilePicture(user.getProfilePicture());
+ 
+-        return ResponseEntity.ok(user);
+-
++        return ResponseEntity.ok(userProfile);
+     }
+ 
+-    public ResponseEntity<?> setUserMembershipType(@RequestParam String username, @RequestParam String membershipType) {
++    @PutMapping("/updatePlaylist/{username}")
++    public ResponseEntity<?> updateUserPlaylist(
++            @PathVariable String username,
++            @RequestBody List<String> playlist) {
+         User user = userRepository.findByUsername(username);
+ 
+         if (user == null) {
+-            return ResponseEntity.badRequest().body("User not found");
++            return ResponseEntity.notFound().build();
+         }
+ 
+-        user.setMembershipType(membershipType);
++        user.setPlaylist(playlist);
+         userRepository.save(user);
+ 
+-        return ResponseEntity.ok("Membership type set successfully");
++        return ResponseEntity.ok("Playlist updated successfully");
+     }
+-
+-    @GetMapping("/get_membership_type")
+-    public ResponseEntity<?> getUserMembershipType(@RequestParam String username) {
+-        User user = userRepository.findByUsername(username);
+-
+-        if (user == null) {
+-            return ResponseEntity.badRequest().body("User not found");
+-        }
+-
+-        String membershipType = user.getMembershipType();
+-        return ResponseEntity.ok(membershipType);
+-    }
+-    @GetMapping("/get_ui_theme")
+-    public ResponseEntity<?> getUserUITheme(@RequestParam String username) {
+-        User user = userRepository.findByUsername(username);
+-
+-        if (user == null) {
+-            return ResponseEntity.badRequest().body("User not found");
+-        }
+-
+-        String uiThemeColor = user.getUiThemeColor();
+-        return ResponseEntity.ok(uiThemeColor);
+-    }
+-
+-    // Get Profile Picture endpoint
+-    @GetMapping("/get_profile_picture")
+-    public ResponseEntity<?> getUserProfilePicture(@RequestParam String username) {
++    @GetMapping("/getPlaylist/{username}")
++    public ResponseEntity<?> getUserPlaylist(@PathVariable String username) {
+         User user = userRepository.findByUsername(username);
+ 
+         if (user == null) {
+-            return ResponseEntity.badRequest().body("User not found");
++            return ResponseEntity.notFound().build();
+         }
+ 
+-        String profilePicture = user.getProfilePicture();
+-        return ResponseEntity.ok(profilePicture);
+-    }
++        List<String> playlist = user.getPlaylist();
+ 
+-}
++        return ResponseEntity.ok(playlist);
++    }
++
++}
+\ No newline at end of file

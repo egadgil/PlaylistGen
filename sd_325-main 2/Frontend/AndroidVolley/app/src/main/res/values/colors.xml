@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_500">#9E9E9E</color>
+
+
+    <!-- the most basic implemetation of themes for now -->
+
+    <color name="lilac">#d5ddf6</color>
+    <color name="lilacDark">#232B44</color>
+    <color name="lilacCom">#EB7ACE</color>
+    <color name="lilacButton">#A2AAC3</color>
+
+
+    <color name="skyblue">#c7e3f0</color>
+    <color name ="skyblueDark">#15313E</color>
+    <color name ="skyblueCom">#BA56D1</color>
+    <color name ="skyblueButton">#66b3d6</color>
+
+
+
+    <color name="moss">#CFDAB0</color>
+    <color name="mossDark">#69744A</color>
+    <color name="mossCom">#D9B0B9</color>
+    <color name ="mossButton">#9CA77D</color>
+
+
+    <color name ="plain">#FFFFFF</color>
+
+</resources>

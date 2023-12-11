@@ -1,0 +1,15 @@
+/build
+.DS_Store
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+local.properties
+Thumbs.db
+obj/
+.externalNativeBuild
+.gradle
+.idea/compiler.xml

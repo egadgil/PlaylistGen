@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+
+    <TextView
+        android:id="@+id/userDashboardTxt"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/profilePageBtn"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        android:text="Profile Page"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboardPageBtn" />
+
+    <Button
+        android:id="@+id/leaderboardPageBtn"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="Leaderboard"
+        app:layout_constraintStart_toEndOf="@+id/savedPlaylistBtn"
+        app:layout_constraintTop_toBottomOf="@+id/playlistGeneratorPageBtn" />
+
+    <Button
+        android:id="@+id/playlistGeneratorPageBtn"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="32dp"
+        android:text="Playlist Generator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userDashboardTxt" />
+
+    <Button
+        android:id="@+id/savedPlaylistBtn"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        android:text="Saved playlists"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playlistGeneratorPageBtn" />
+
+    <Button
+        android:id="@+id/paymentPageBtn"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        android:text="Payment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePageBtn" />
+
+    <Button
+        android:id="@+id/dmBtn"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="Direct Message"
+        app:layout_constraintStart_toEndOf="@+id/paymentPageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/profilePageBtn" />
+
+    <Button
+        android:id="@+id/discoverPage"
+        android:layout_width="283dp"
+        android:layout_height="60dp"
+        android:text="Discover Page"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentPageBtn"
+        app:layout_constraintVertical_bias="0.108" />
+
+</android.support.constraint.ConstraintLayout>

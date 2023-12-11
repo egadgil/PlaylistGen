@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="BSelectImage" type="id" />
+    <item name="IVPreviewImage" type="id" />
+</resources>
